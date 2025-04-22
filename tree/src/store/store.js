@@ -2,21 +2,21 @@ let state = {
     tree: [{ id: 1, name: 'Node 1', children: [] }],
     selectedId: null,
     idCounter: 2,
-  };
+};
   
-  let listeners = [];
+let listeners = [];
   
-  export const getState = () => state;
+export const getState = () => state;
   
-  export const subscribe = (callback) => {
+export const subscribe = (callback) => {
     listeners.push(callback);
     return () => {
-      listeners = listeners.filter((l) => l !== callback);
+        listeners = listeners.filter((l) => l !== callback);
     };
-  };
+};
   
-    export const dispatch = (action) => {
-        switch (action.type) {
+export const dispatch = (action) => {
+    switch (action.type) {
         case 'SELECT_NODE':
             state = { ...state, selectedId: action.payload };
             break;
@@ -35,7 +35,7 @@ let state = {
                         return {...node, children: [...node.children, newNode],};
                     }
                     return { ...node, children: addNode(node.children) };
-            });
+                });
 
             state = {
                 ...state,
@@ -51,20 +51,18 @@ let state = {
                     {
                         return { ...node, name: action.payload };
                     }
-                        return { ...node, children: renameNode(node.children) };
+                    return { ...node, children: renameNode(node.children) };
                 });
-                
+                    
             state = { ...state, tree: renameNode(state.tree) };
             break;
 
         case 'DELETE_NODE':
             const deleteNode = (nodes) =>
-            nodes
-                .filter((node) => node.id !== state.selectedId)
-                .map((node) => ({
-                    ...node,
-                    children: deleteNode(node.children),
-                }));
+            nodes.filter((node) => node.id !== state.selectedId).map((node) => ({
+                ...node,
+                children: deleteNode(node.children),
+            }));
             state = {
                 ...state,
                 tree: deleteNode(state.tree),
@@ -79,8 +77,8 @@ let state = {
                 idCounter: 2,
             };
             break;
-        }
+    }
     
-        listeners.forEach((cb) => cb(state));
+    listeners.forEach((cb) => cb(state));
   };
   

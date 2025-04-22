@@ -25,35 +25,30 @@ const Controls = ({ disabled }) => {
 
   return (
     <div style={{ marginBottom: '20px', gap: 8, display: 'flex' }}>
-        <button onClick={() => dispatch({ type: 'ADD_NODE' })}>Добавить</button>
-
-        {!isEditing ? (
-            <button onClick={handleEditClick} disabled={disabled}>Редактировать</button>
+      <button onClick={() => dispatch({ type: 'ADD_NODE' })}>Добавить</button>
+      {!isEditing ? (
+          <button onClick={handleEditClick} disabled={disabled}>Редактировать</button>
         ) : (
-            <>
-            <input
-                value={tempName}
-                onChange={(e) => setTempName(e.target.value)}
-                style={{ padding: '4px' }}
-            />
+          <>
+            <input value={tempName} onChange={(e) => setTempName(e.target.value)} style={{ padding: '4px' }}/>
             <button onClick={handleSave} disabled={!tempName.trim()}>Сохранить</button>
             <button onClick={handleCancel}>Отмена</button>
-            </>
-        )}
-
-        <button onClick={() => dispatch({ type: 'DELETE_NODE' })} disabled={disabled}>Удалить</button>
-        <button onClick={() => dispatch({ type: 'RESET' })}>Сброс</button>
+          </>
+      )}
+      <button onClick={() => dispatch({ type: 'DELETE_NODE' })} disabled={disabled}>Удалить</button>
+      <button onClick={() => dispatch({ type: 'RESET' })}>Сброс</button>
     </div>
   );
 };
 
 function findNodeById(nodes, id) {
-    for (let node of nodes) {
-        if (node.id === id) return node;
-        const found = findNodeById(node.children, id);
-        if (found) return found;
-    }
-    return null;
+  for (let node of nodes) 
+  {
+    if (node.id === id) return node;
+    const found = findNodeById(node.children, id);
+    if (found) return found;
+  }
+  return null;
 }
 
 export default Controls;
